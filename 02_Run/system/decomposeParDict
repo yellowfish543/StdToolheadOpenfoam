@@ -7,23 +7,22 @@ FoamFile
 }
 
 // Exported by SnappyHexMesh GUI add-on for Blender v1.0
-// Source file: \\Diskstation\Data\Hobby\3D_Printer\Printer Varients\Ender 3\Toolhead\CFD\YF_TH02_35-2\YF_TH02-35.blend
-// Export date: 2022-10-21 21:57:07.086188
 
-numberOfSubdomains 22;
+numProc 22;
+
+numberOfSubdomains $numProc;
 
 method          scotch;
-// method          simple;
 
 simpleCoeffs
 {
-    n               (1 1 22);
+    n               (1 1 $numProc);
     delta           0.001;
 }
 
 hierarchicalCoeffs
 {
-    n               (1 1 22);
+    n               (1 1 $numProc);
     delta           0.001;
     order           xyz;
 }
