@@ -7,8 +7,6 @@ FoamFile
 }
 
 // Exported by SnappyHexMesh GUI add-on for Blender v1.0
-// Source file: \\Diskstation\Data\Hobby\3D_Printer\Printer Varients\Ender 3\Toolhead\CFD\YF_TH02_35-2\YF_TH02-35.blend
-// Export date: 2022-10-21 21:57:06.920324
 
 castellatedMesh true;
 snap            true;
@@ -20,21 +18,16 @@ geometry
     {
         type triSurfaceMesh;
         file "inletLeft.stl";
-        // Area = 0.000223016
     }
     inletRight
     {
         type triSurfaceMesh;
         file "inletRight.stl";
-        // Area = 0.000223016
     }
     outletAtmosphere
     {
         type triSurfaceMesh;
         file "outletAtmosphere.stl";
-        // -0.0499999 to 0.05 (delta: 0.1)
-        // -0.0600008 to 0.0899992 (delta: 0.15)
-        // -0.0258405 to 0.0141595 (delta: 0.04)
     }
     walls
     {
@@ -71,13 +64,11 @@ geometry
         type triSurfaceMesh;
         file "refinementNozzle.stl";
     }
-    /*
     refinementPart
     {
         type triSurfaceMesh;
         file "refinementPart.stl";
     }
-    */
     refinementNozzleTip
     {
         type            searchableCylinder;
@@ -173,13 +164,11 @@ castellatedMeshControls
             mode inside;
             levels ((1e3 3));
         }
-        /*
         refinementPart
         {
             mode inside;
             levels ((1e3 2));
         }
-        */
         refinementNozzleTip
         {
             mode inside;
