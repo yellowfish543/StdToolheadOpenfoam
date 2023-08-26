@@ -87,13 +87,13 @@ To be added...
 ## Step 6: Case Execution
 before running the case ensure the number of processors in the run scripts are set according to [decomposParDict](./02_Run/system/decomposeParDict) 
 The following files need to be checked and updated as required:
-[miniMesh](./miniMesh)
-[allRun](./allRun)
-[newBCs.sh](./newBCs.sh)
+<br> [miniMesh](./miniMesh)
+<br> [allRun](./allRun)
+<br> [newBCs.sh](./newBCs.sh)
 
-The 'mpirun' commands should be configured to ensure the number of processors '-np' is correct.
+The `mpirun` commands should be configured to ensure the number of processors `-np` is correct.
 <br> For example, 22 processors are requested for the following command in [allRun](./allRun) 
-<br> 'mpirun -np *22* -bind-to core -bind-to socket renumberMesh -overwrite -parallel'
+<br> `mpirun -np *22* -bind-to core -bind-to socket renumberMesh -overwrite -parallel`
 
 Open the `02_Run` folder in VSCode
 <br> Open a terminal
