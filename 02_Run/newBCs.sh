@@ -3,6 +3,6 @@
 rm -rf ./postProcessing ./0
 cp -r 0.org/. 0
 decomposePar -fields
-mpirun -np 22 -bind-to core -bind-to socket renumberMesh -overwrite -parallel
-mpirun -np 22 -bind-to core -bind-to socket potentialFoam -parallel -initialiseUBCs
-mpirun -np 22 -bind-to core -bind-to socket pimpleFoam -parallel > logRun &
+mpirun -np 16 --use-hwthread-cpus renumberMesh -overwrite -parallel
+mpirun -np 16 --use-hwthread-cpus potentialFoam -parallel -initialiseUBCs
+mpirun -np 16 --use-hwthread-cpus pimpleFoam -parallel > logRun &
