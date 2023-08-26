@@ -8,7 +8,7 @@ FoamFile
 
 // Exported by SnappyHexMesh GUI add-on for Blender v1.0
 
-numProc 22;
+numProc 16;
 
 numberOfSubdomains $numProc;
 
