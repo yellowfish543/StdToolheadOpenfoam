@@ -5,8 +5,8 @@ sh allClean
 blockMesh
 surfaceFeatureExtract
 decomposePar
-mpirun -np 22 -bind-to core -bind-to socket snappyHexMesh -overwrite -parallel > logMesh
-mpirun -np 22 -bind-to core -bind-to socket checkMesh -parallel -allTopology -allGeometry -writeSets vtk > logCheckMesh
+mpirun -np 16 --use-hwthread-cpus snappyHexMesh -overwrite -parallel > logMesh
+mpirun -np 16 --use-hwthread-cpus checkMesh -parallel -allTopology -allGeometry -writeSets vtk > logCheckMesh
 
 reconstructParMesh -constant
 
