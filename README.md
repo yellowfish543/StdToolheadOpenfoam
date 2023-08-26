@@ -59,18 +59,31 @@ The following stl's are required for the meshing to work without modification:
 
 ## Step 3: Boundary Condition Calculation
 Template file includes suitable bounadry conditions to simulate a 4010 GDSTime blower into ambient air
-The Case is run isothermal incompressible with k-Omega SST turbulence model.
-Supporting workbook to be added... 
+<br>The Case is run isothermal incompressible with k-Omega SST turbulence model.
+<br>Supporting workbook to be added... 
 
 ## Step 4: Mesh Configuration
+Meshing is completed in a number of steps.
+1) blockMesh is generated for the fluid domain. This is the background mesh and will be refined.
+2) The mesh is decomposed based on the number of processors solving the analysis
+3) The geometry is processed to extract edges of the stl's
+4) SnappyHexMesh refines the mesh around the geometry and refinement regions, generating the final analysis mesh
+
 The case is configured to run in parallel using openMPI on 22 processors.
-The variable numProc has been set in [decomposParDict](./02_Run/system/decomposParDict) file.
+The variable numProc has been set in [decomposParDict](./02_Run/system/decomposeParDict) file.
 Running on a couple few cores than the PC has enables post-processing during a run (assuming there is sufficient system RAM)
 The meshing has been configured with the following:
 * stl's should be saved in meters
 * stl's should be stored in `./<CaseName>/01_Geometry`
-* 
 
+When the fluid domain is modified the min/max coordinates must be updated in [blockMeshDict](./02_Run/system/blockMeshDict)
+<br>The blockMesh domain should be larger than the fluid domain, therefore any values should be rounded up to the nearest 0.1mm
+<br> eg. if the minimum corner point is (-60, -30, -25), the blockMeshDict should be updated to (-60.1, -30.1, -25.1)
+<br> Issues with the blockMesh domain will result in a `world` patch being created and errors associates with boundary conditions not being provided during the decomposition of the mesh.
 
-## Step 5:
+## Step 5: Case Configuration
+
+## Step 6: Case Execution
+
+## Step 7: Post-processing
 
