@@ -77,7 +77,7 @@ The meshing has been configured with the following:
 * stl's should be stored in `./<CaseName>/01_Geometry`
 
 When the fluid domain is modified the min/max coordinates must be updated in [blockMeshDict](./02_Run/system/blockMeshDict)
-<br>The blockMesh domain should be larger than the fluid domain, therefore any values should be rounded up to the nearest 0.1mm
+<br> The blockMesh domain should be larger than the fluid domain, therefore any values should be rounded up to the nearest 0.1mm
 <br> eg. if the minimum corner point is (-60, -30, -25), the blockMeshDict should be updated to (-60.1, -30.1, -25.1)
 <br> Issues with the blockMesh domain will result in a `world` patch being created and errors associates with boundary conditions not being provided during the decomposition of the mesh.
 
@@ -92,13 +92,13 @@ The following files need to be checked and updated as required:
 [newBCs.sh](./newBCs.sh)
 
 The 'mpirun' commands should be configured to ensure the number of processors '-np' is correct.
-<br>For example, 22 processors are requested for the following command in [allRun](./allRun) 
-<br>'mpirun -np *22* -bind-to core -bind-to socket renumberMesh -overwrite -parallel'
+<br> For example, 22 processors are requested for the following command in [allRun](./allRun) 
+<br> 'mpirun -np *22* -bind-to core -bind-to socket renumberMesh -overwrite -parallel'
 
 Open the `02_Run` folder in VSCode
-<br>Open a terminal
-<br>Run `sh allMesh`
-_This will complete a folder clean up to remove any previous meshes, then generate a mesh, decompose for the number of processors and then run the boundary condition initialisation followed by pimpleFoam solver. 
+<br> Open a terminal
+<br> Run `sh allMesh`
+<br> This will complete a folder clean up to remove any previous meshes, then generate a mesh, decompose for the number of processors and then run the boundary condition initialisation followed by pimpleFoam solver. 
 
 ## Step 7: Post-processing
 
