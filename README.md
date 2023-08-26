@@ -16,5 +16,61 @@ The workflow uses software freely avaliable for non-commercial use:
 * Excel - Boundary condition calcs (step 3) - Ok so not free but readliy avaliable, can be migrated to python at some point   
 * VSCode - All interfaceing with Openfoam setup and execution as well as launching paraFoam/paraView for post-processing - (Steps 4-7)
 * OpenFOAM v2212 - Openfoam.com flavour (largely the same as .org but syntax varies) (steps 4-6)
-* ParaFOAM - Post-processor bundled into OpenFOAM, could also use ParaView either in Linux or Windows (step 7)  
+* ParaFOAM - Post-processor bundled into OpenFOAM, could also use ParaView either in Linux or Windows (step 7)
+
+## Folder Structure
+This workflow assuems a common folder structure:
+<br>	`./<CaseName>/01_Geometry`
+<br> 	`./<CaseName>/02_Run`
+<br>	`./<CaseName>/03_Calcs`
+
+**Note** that the pre-run cleanup script will update the mesh geometry based on the contence of `./<CaseName>/01_Geometry` 
+
+## Step 1: Geometry Preparation
+To be added....
+
+## Step 2: Fluid Domain Generation
+details to be added...
+The fluid domain is generated using stl's containing the surfaces which make up a given 'patch'
+A patch is used to define boundary conditions, such as a domain inlet, outlet or a wall.
+Walls are sub-divided to enable mesh refinement in given regions, hence multiple stl's are required for the walls
+volumetric regions are also used for mesh refinement, specifically fine refinment around the nozzle and moderate refinement around the part.
+
+The following stl's are required for the meshing to work without modification: 
+
+**Inlet**
+* inletLeft
+* inletRight
+
+**Outlet**
+* outletAtmosphere
+
+**Walls**
+* walls
+* wallsDuctLeft
+* wallsDuctRight
+* wallsNozzle
+* wallsBuildplate
+* wallsPart
+
+**Refinement Regions**
+* refinementNozzle
+* refinementPart
+
+## Step 3: Boundary Condition Calculation
+Template file includes suitable bounadry conditions to simulate a 4010 GDSTime blower into ambient air
+The Case is run isothermal incompressible with k-Omega SST turbulence model.
+Supporting workbook to be added... 
+
+## Step 4: Mesh Configuration
+The case is configured to run in parallel using openMPI on 22 processors.
+The variable numProc has been set in [decomposParDict](./02_Run/system/decomposParDict) file.
+Running on a couple few cores than the PC has enables post-processing during a run (assuming there is sufficient system RAM)
+The meshing has been configured with the following:
+* stl's should be saved in meters
+* stl's should be stored in `./<CaseName>/01_Geometry`
+* 
+
+
+## Step 5:
 
