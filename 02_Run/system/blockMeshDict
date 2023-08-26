@@ -6,27 +6,40 @@ FoamFile
     object      blockMeshDict;
 }
 
-// Exported by SnappyHexMesh GUI add-on for Blender v1.0
-// Source file: \\Diskstation\Data\Hobby\3D_Printer\Printer Varients\Ender 3\Toolhead\CFD\YF_TH02_35-2\YF_TH02-35.blend
-// Export date: 2022-10-21 21:57:06.920324
 
+// Define corners of fluid volume in meters
+xMin    -0.044;
+xMax     0.044;
+yMin    -0.060;
+yMax     0.060;
+zMin    -0.026;
+zMax     0.032;
+
+// Define blockmesh element size - default is 3mm, this is the largest element in the mesh.
+blockSize 0.003;
+
+xBlocks #eval "ceil( ($xMax - $xMin) / $blockSize )";
+yBlocks #eval "ceil( ($yMax - $yMin) / $blockSize )";
+zBlocks #eval "ceil( ($zMax - $zMin) / $blockSize )";
+
+// Scale set to meters
 scale 1;
 
 vertices
 (
-    ( -0.044 -0.06 -0.026 )
-    ( 0.044 -0.06 -0.026 )
-    ( 0.044 0.06 -0.026 )
-    ( -0.044 0.06 -0.026 )
-    ( -0.044 -0.06 0.032 )
-    ( 0.044 -0.06 0.032 ) 
-    ( 0.044 0.06 0.032 ) 
-    ( -0.044 0.06 0.032 ) 
+    ( $xMin $yMin $zMin )
+    ( $xMax $yMin $zMin )
+    ( $xMax $yMax $zMin )
+    ( $xMin $yMax $zMin )
+    ( $xMin $yMin $zMax )
+    ( $xMax $yMin $zMax ) 
+    ( $xMax $yMax $zMax ) 
+    ( $xMin $yMax $zMax ) 
 );
 
 blocks
 (
-    hex (0 1 2 3 4 5 6 7) (26 40 19) simpleGrading (1 1 1)
+    hex (0 1 2 3 4 5 6 7) ($xBlocks $yBlocks $zBlocks) simpleGrading (1 1 1)
 );
 
 edges
