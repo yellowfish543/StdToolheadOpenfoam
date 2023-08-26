@@ -1,0 +1,47 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  8
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      omega;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 -1 0 0 0 0];
+
+omegaInlet           1.8;
+omegaOutlet4010      7.184E+03;
+
+internalField   uniform $omegaInlet;
+
+boundaryField
+{
+      "(inletLeft|inletRight)"
+      {
+            type            turbulentMixingLengthFrequencyInlet;
+            mixingLength    1.12E-03; //0.07 x Hydraulic Diameter
+            value           uniform 200;
+      }
+      outletAtmosphere
+      {
+            type            inletOutlet;
+            inletValue      uniform $omegaInlet;
+            value           uniform $omegaInlet;
+      }
+      "(walls|wallsDuctLeft|wallsDuctRight|wallsNozzle|wallsPart|wallsBuildplate)"
+      {
+            type            omegaWallFunction;
+            value           uniform $omegaInlet;
+      }
+      
+      #includeEtc "caseDicts/setConstraintTypes"
+}
+
+// ************************************************************************* //

@@ -1,0 +1,106 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  8
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    p
+    {
+        solver                GAMG;
+        tolerance             1e-8;
+        relTol                0.01;
+        smoother              GaussSeidel;
+        nPreSweeps            3;
+        nPostSweeps           2;
+        cacheAgglomeration    on;
+        agglomerator          faceAreaPair;
+        nCellsInCoarsestLevel 120;
+        mergeLevels           1;
+    }
+
+    pFinal
+    {
+        $p;
+        tolerance       1e-08;
+        relTol          0;
+    }
+
+    U
+    {
+        type            coupled;
+        solver          PBiCCCG;
+        preconditioner  DILU;
+        tolerance       (1e-06 1e-06 1e-06);
+        relTol          (0.01 0.01 0.01);
+        minIter         3;
+    }
+
+    UFinal
+    {
+        $U;
+        tolerance       (1e-08 1e-08 1e-08);
+        relTol          (0 0 0);
+    }
+
+
+    "(k|epsilon|omega|R|nuTilda|Phi)"
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+        tolerance       1e-6;
+        relTol          0.01;
+        nSweeps         1;
+    }
+
+
+    "(k|omega|epsilon)Final"
+    {
+        $k;
+        relTol          0;
+    }
+
+    T
+    {
+        $k;
+        relTol          0;
+    }
+}
+
+"(PIMPLE|PISO)"
+{
+    nOuterCorrectors 1;
+    nCorrectors     2;
+    nNonOrthogonalCorrectors 1;
+}
+
+relaxationFactors
+{
+    equations
+    {
+        ".*" 1;
+    }
+}
+
+potentialFlow
+{
+    nNonOrthogonalCorrectors    1;
+}
+
+cache
+{
+    grad(U);
+}
+
+// ************************************************************************* //

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+foamLog logRun >/dev/null
+
+gnuplot -persist > /dev/null 2>&1 << EOF
+        set logscale y
+        set grid
+        set title "Residual vs. Iteration"
+        set xlabel "Iteration"
+        set ylabel "Residual"
+        set format x "%1.1e"
+        set format y "%1.0e"
+        plot "logs/Ux_0" with lines,\
+                "logs/Uy_0" with lines,\
+                "logs/Uz_0" with lines,\
+                "logs/e_0" with lines,\
+                "logs/omega_0" with lines,\
+                "logs/k_0" with lines,\
+                "logs/p_0" with lines
+EOF

@@ -1,0 +1,42 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  8
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      mut;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -1 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    "(inletLeft|inletRight)"
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+    outletAtmosphere
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+    "(walls|wallsDuctLeft|wallsDuctRight|wallsNozzle|wallsPart|wallsBuildplate)"
+    {
+        type            nutLowReWallFunction;
+        value           $internalField;
+    }
+    
+    #includeEtc "caseDicts/setConstraintTypes"
+}
+
+// ************************************************************************* //

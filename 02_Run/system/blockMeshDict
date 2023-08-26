@@ -1,0 +1,51 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+
+// Exported by SnappyHexMesh GUI add-on for Blender v1.0
+// Source file: \\Diskstation\Data\Hobby\3D_Printer\Printer Varients\Ender 3\Toolhead\CFD\YF_TH02_35-2\YF_TH02-35.blend
+// Export date: 2022-10-21 21:57:06.920324
+
+scale 1;
+
+vertices
+(
+    ( -0.044 -0.06 -0.026 )
+    ( 0.044 -0.06 -0.026 )
+    ( 0.044 0.06 -0.026 )
+    ( -0.044 0.06 -0.026 )
+    ( -0.044 -0.06 0.032 )
+    ( 0.044 -0.06 0.032 ) 
+    ( 0.044 0.06 0.032 ) 
+    ( -0.044 0.06 0.032 ) 
+);
+
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) (26 40 19) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    world
+    {
+        type patch;
+        faces
+        (
+            (3 7 6 2)
+            (0 4 7 3)
+            (2 6 5 1)
+            (1 5 4 0)
+            (0 3 2 1)
+            (4 5 6 7)
+        );
+    }
+);

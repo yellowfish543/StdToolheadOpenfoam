@@ -1,0 +1,50 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  8
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      k;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -2 0 0 0 0];
+
+// https://www.simscale.com/docs/simulation-setup/global-settings/k-omega-sst/
+
+turbulentKE     0.01;
+turbulentIntensity     0.15;
+
+internalField   uniform $turbulentKE;
+
+boundaryField
+{
+    //- Set patchGroups for constraint patches
+    #includeEtc "caseDicts/setConstraintTypes"
+
+      "(inletLeft|inletRight)"
+      {
+            type            turbulentIntensityKineticEnergyInlet;
+            intensity       $turbulentIntensity;
+            value           uniform 1;
+      }
+      outletAtmosphere
+      {
+            type            zeroGradient;
+      }
+      "(walls|wallsDuctLeft|wallsDuctRight|wallsNozzle|wallsPart|wallsBuildplate)"
+      {
+            type            kLowReWallFunction;
+            value           uniform 1e-20;
+      }
+}
+
+
+// ************************************************************************* //
+//

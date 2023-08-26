@@ -1,0 +1,139 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  8
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     pimpleFoam;
+
+startFrom       startTime; //firstTime; startTime; latestTime;
+
+startTime       0.0;
+
+stopAt          endTime; // endTime; nextWrite; writeNow; noWriteNow
+
+endTime         0.02; // was 0.06
+
+deltaT          1e-6;
+
+writeControl    adjustableRunTime;
+
+writeInterval   5e-4;
+
+purgeWrite      30;
+
+writeFormat     ascii;
+
+writePrecision   10;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+
+adjustTimeStep  on;
+
+maxCo           0.5;
+maxAlphaCo      1;
+
+maxDeltaT       0.002;
+
+functions
+{
+    wallShearStress1
+    {
+        // Mandatory entries (unmodifiable)
+        type            wallShearStress;
+        libs            (fieldFunctionObjects);
+
+        // Optional entries (runtime modifiable)
+        patches         (wallsNozzle wallsPart wallsBuildplate); // (wall1 "(wall2|wall3)");
+
+        // Optional (inherited) entries
+        writePrecision  8;
+        writeToFile     true;
+        useUserTime     true;
+        region          region0;
+        enabled         true;
+        log             true;
+        // executeControl  timeStep;
+        // executeInterval 500;
+        writeControl    timeStep;
+        writeInterval   1000;
+    }
+    /*
+    fieldAverage1
+    {
+        // Mandatory entries (unmodifiable)
+        type            fieldAverage;
+        libs            (fieldFunctionObjects);
+
+        // Mandatory entries (runtime modifiable)
+        fields
+        (
+            U
+            {
+                mean        yes;
+                prime2Mean  yes;
+                base        time;
+                // windowType  exact;
+                // window      10.0;
+                // windowName  <name>;
+                allowRestart true;
+            }
+        );
+
+        // Optional entries (runtime modifiable)
+        restartOnRestart    false;
+        restartOnOutput     false;
+        periodicRestart     false;
+        restartPeriod       0.002;
+
+        // Optional (inherited) entries
+        // region          region0;
+        enabled         true;
+        log             true;
+        // timeStart       0;
+        // timeEnd         1000;
+        executeControl  timeStep;
+        executeInterval 1;
+        writeControl    timeStep;
+        writeInterval   200;
+    }
+    */
+    inletLeft
+    {
+          type            surfaceFieldValue;
+          libs (libfieldFunctionObjects);
+          enabled         true;
+          writeControl    timeStep;
+          writeInterval   500;
+          log             true;
+          writeFields     false;
+          regionType      patch;
+          name            inletLeft;
+          operation       sum;
+          fields
+          (
+              phi
+              U
+              p
+          );
+    }
+    
+}
+
+// ************************************************************************* //

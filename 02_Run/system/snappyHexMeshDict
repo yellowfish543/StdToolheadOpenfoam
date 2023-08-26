@@ -1,0 +1,273 @@
+FoamFile
+{
+    version         2;
+    format          ascii;
+    class           dictionary;
+    object          snappyHexMeshDict;
+}
+
+// Exported by SnappyHexMesh GUI add-on for Blender v1.0
+// Source file: \\Diskstation\Data\Hobby\3D_Printer\Printer Varients\Ender 3\Toolhead\CFD\YF_TH02_35-2\YF_TH02-35.blend
+// Export date: 2022-10-21 21:57:06.920324
+
+castellatedMesh true;
+snap            true;
+addLayers       false;
+
+geometry
+{
+    inletLeft
+    {
+        type triSurfaceMesh;
+        file "inletLeft.stl";
+        // Area = 0.000223016
+    }
+    inletRight
+    {
+        type triSurfaceMesh;
+        file "inletRight.stl";
+        // Area = 0.000223016
+    }
+    outletAtmosphere
+    {
+        type triSurfaceMesh;
+        file "outletAtmosphere.stl";
+        // -0.0499999 to 0.05 (delta: 0.1)
+        // -0.0600008 to 0.0899992 (delta: 0.15)
+        // -0.0258405 to 0.0141595 (delta: 0.04)
+    }
+    walls
+    {
+        type triSurfaceMesh;
+        file "walls.stl";
+    }
+    wallsDuctLeft
+    {
+        type triSurfaceMesh;
+        file "wallsDuctLeft.stl";
+    }
+    wallsDuctRight
+    {
+        type triSurfaceMesh;
+        file "wallsDuctRight.stl";
+    }
+    wallsNozzle
+    {
+        type triSurfaceMesh;
+        file "wallsNozzle.stl";
+    }
+    wallsPart
+    {
+        type triSurfaceMesh;
+        file "wallsPart.stl";
+    }
+    wallsBuildplate
+    {
+        type triSurfaceMesh;
+        file "wallsBuildplate.stl";
+    }
+    refinementNozzle
+    {
+        type triSurfaceMesh;
+        file "refinementNozzle.stl";
+    }
+    /*
+    refinementPart
+    {
+        type triSurfaceMesh;
+        file "refinementPart.stl";
+    }
+    */
+    refinementNozzleTip
+    {
+        type            searchableCylinder;
+        point1          (0 0 -1e-3);
+        point2          (0 0  3e-3);
+        radius          0.0025;
+    }
+}
+
+castellatedMeshControls
+{
+    maxLocalCells   10000000;
+    maxGlobalCells  10000000;
+    minRefinementCells 10;
+    maxLoadUnbalance 0.1;
+    nCellsBetweenLevels 3;
+    locationInMesh (0.0 0.025 0.0);
+    allowFreeStandingZoneFaces true;
+    resolveFeatureAngle 25;
+    features
+    (
+        {
+            file "inletLeft.eMesh";
+            level 2;
+        }
+        {
+            file "inletRight.eMesh";
+            level 2;
+        }
+        {
+            file "outletAtmosphere.eMesh";
+            level 0;
+        }
+        {
+            file "walls.eMesh";
+            level 2;
+        }
+        {
+            file "wallsDuctLeft.eMesh";
+            level 3;
+        }
+        {
+            file "wallsDuctRight.eMesh";
+            level 3;
+        }
+        {
+            file "wallsNozzle.eMesh";
+            level 3;
+        }
+        {
+            file "wallsPart.eMesh";
+            level 3;
+        }
+        {
+            file "wallsBuildplate.eMesh";
+            level 0;
+        }
+
+    );
+    refinementSurfaces
+    {
+        "(inletLeft|inletRight)"
+        {
+            level (2 3);
+            patchInfo { type patch; }
+        }
+        outletAtmosphere
+        {
+            level (0 1);
+            patchInfo { type patch; }
+        }
+        "(walls|wallsBuildplate)"
+        {
+            level (2 2);
+            patchInfo { type wall; }
+        }
+        "(wallsDuctLeft|wallsDuctRight)"
+        {
+            level (3 3);
+            patchInfo { type wall; }
+        }
+        "(wallsPart|wallsNozzle)"
+        {
+            level (3 3);
+            patchInfo { type wall; }
+        }
+        
+    }
+    refinementRegions
+    {
+        refinementNozzle
+        {
+            mode inside;
+            levels ((1e3 3));
+        }
+        /*
+        refinementPart
+        {
+            mode inside;
+            levels ((1e3 2));
+        }
+        */
+        refinementNozzleTip
+        {
+            mode inside;
+            levels ((1e3 6));
+        }
+
+    }
+}
+
+snapControls
+{
+    nSmoothPatch    3;
+    tolerance       4;
+    nSolveIter      300;
+    nRelaxIter      10;
+    nFeatureSnapIter 10;
+    implicitFeatureSnap false;
+    explicitFeatureSnap true;
+    multiRegionFeatureSnap true;
+}
+
+addLayersControls
+{
+    relativeSizes   true;
+    expansionRatio  1.2;
+    finalLayerThickness 0.7;
+    minThickness    0.2;
+    nGrow           0;
+    featureAngle    130;
+    slipFeatureAngle 30;
+    nRelaxIter      5;
+    nSmoothSurfaceNormals 1;
+    nSmoothNormals  3;
+    nSmoothThickness 10;
+    maxFaceThicknessRatio 0.5;
+    maxThicknessToMedialRatio 0.3;
+    minMedialAxisAngle 90;
+    nBufferCellsNoExtrude 0;
+    nLayerIter      50;
+    layers
+    {
+        "(wallsDuctLeft|wallsDuctRight)"
+        {
+             nSurfaceLayers 3;
+        }
+        "(wallsPart)"
+        {
+             nSurfaceLayers 3;
+        }
+        "(walls|wallsBuildplate)"
+        {
+             nSurfaceLayers 0;
+        }
+        "(inletLeft|inletRight)"
+        {
+             nSurfaceLayers 0;
+        }
+        outletAtmosphere
+        {
+             nSurfaceLayers 0;
+        }
+              
+    }
+}
+
+meshQualityControls
+{
+    maxNonOrtho     35;
+    maxBoundarySkewness 20;
+    maxInternalSkewness 4;
+    maxConcave      80;
+    minVol          1e-15;
+    minTetQuality   1e-15;
+    minArea         -1;
+    minTwist        0.02;
+    minDeterminant  0.001;
+    minFaceWeight   0.05;
+    minVolRatio     0.01;
+    minTriangleTwist -1;
+    nSmoothScale    4;
+    errorReduction  0.75;
+}
+
+writeFlags
+(
+    scalarLevels    // write volScalarField with cellLevel for postprocessing
+    layerSets       // write cellSets, faceSets of faces in layer
+    layerFields     // write volScalarField for layer coverage
+);
+
+mergeTolerance  1e-06;

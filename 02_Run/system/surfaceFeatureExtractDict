@@ -1,0 +1,77 @@
+FoamFile
+{
+    version         2;
+    format          ascii;
+    class           dictionary;
+    object          surfaceFeaturesDict;
+}
+
+// Exported by SnappyHexMesh GUI add-on for Blender v1.0
+// Source file: \\Diskstation\Data\Hobby\3D_Printer\Printer Varients\Ender 3\Toolhead\CFD\YF_TH02_35-2\YF_TH02-35.blend
+// Export date: 2022-10-21 21:57:06.920324
+
+
+inletLeft.stl
+{
+    extractionMethod extractFromSurface;
+    extractFromSurfaceCoeffs { includedAngle 180; }
+    writeObj yes;
+}
+
+inletRight.stl
+{
+    extractionMethod extractFromSurface;
+    extractFromSurfaceCoeffs { includedAngle 180; }
+    writeObj yes;
+}
+
+outletAtmosphere.stl
+{
+    extractionMethod extractFromSurface;
+    extractFromSurfaceCoeffs { includedAngle 180; }
+    writeObj yes;
+}
+
+walls.stl
+{
+    extractionMethod extractFromSurface;
+    extractFromSurfaceCoeffs { includedAngle 180; }
+    writeObj yes;
+}
+
+wallsDuctLeft.stl
+{
+    extractionMethod extractFromSurface;
+    extractFromSurfaceCoeffs { includedAngle 180; }
+    writeObj yes;
+}
+
+wallsDuctRight.stl
+{
+    extractionMethod extractFromSurface;
+    extractFromSurfaceCoeffs { includedAngle 180; }
+    writeObj yes;
+}
+
+wallsNozzle.stl
+{
+    extractionMethod extractFromSurface;
+    extractFromSurfaceCoeffs { includedAngle 180; }
+    writeObj yes;
+}
+
+wallsPart.stl
+{
+    extractionMethod extractFromSurface;
+    extractFromSurfaceCoeffs { includedAngle 180; }
+    writeObj yes;
+}
+
+wallsBuildplate.stl
+{
+    extractionMethod extractFromSurface;
+    extractFromSurfaceCoeffs { includedAngle 180; }
+    writeObj yes;
+}
+
+

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+sh allClean
+
+blockMesh
+surfaceFeatureExtract
+decomposePar
+mpirun -np 22 -bind-to core -bind-to socket snappyHexMesh -overwrite -parallel > logMesh
+mpirun -np 22 -bind-to core -bind-to socket checkMesh -parallel -allTopology -allGeometry -writeSets vtk > logCheckMesh
+
+reconstructParMesh -constant
+
+rm -rf ./processor* ./postProcessing ./0
+cp -r 0.org/. 0
