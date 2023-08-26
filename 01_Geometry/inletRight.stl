@@ -1,0 +1,16 @@
+solid ASCII
+  facet normal 0.000000e+00 0.000000e+00 1.000000e+00
+    outer loop
+      vertex   1.752157e-02 -1.757034e-02 1.418567e-02
+      vertex   2.552157e-02 -1.757034e-02 1.418567e-02
+      vertex   1.752157e-02 1.042966e-02 1.418567e-02
+    endloop
+  endfacet
+  facet normal -0.000000e+00 0.000000e+00 1.000000e+00
+    outer loop
+      vertex   1.752157e-02 1.042966e-02 1.418567e-02
+      vertex   2.552157e-02 -1.757034e-02 1.418567e-02
+      vertex   2.552157e-02 1.042966e-02 1.418567e-02
+    endloop
+  endfacet
+endsolid
