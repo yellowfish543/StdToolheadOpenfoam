@@ -1,0 +1,8 @@
+#!/bin/bash
+
+rm -rf ./processor* ./dynamicCode ./0
+
+# Re-mesh removal
+rm -rf ./processor* ./constant/extendedFeatureEdgeMesh ./constant/polyMesh ./constant/triSurface/* ./logs ./log* ./postProcessing
+mkdir -p ./constant/triSurface/ 
+cp -rf ../01_Geometry/* ./constant/triSurface/
