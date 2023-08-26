@@ -82,8 +82,23 @@ When the fluid domain is modified the min/max coordinates must be updated in [bl
 <br> Issues with the blockMesh domain will result in a `world` patch being created and errors associates with boundary conditions not being provided during the decomposition of the mesh.
 
 ## Step 5: Case Configuration
+To be added... 
 
 ## Step 6: Case Execution
+before running the case ensure the number of processors in the run scripts are set according to [decomposParDict](./02_Run/system/decomposeParDict) 
+The following files need to be checked and updated as required:
+[miniMesh](./miniMesh)
+[allRun](./allRun)
+[newBCs.sh](./newBCs.sh)
+
+The 'mpirun' commands should be configured to ensure the number of processors '-np' is correct.
+<br>For example, 22 processors are requested for the following command in [allRun](./allRun) 
+<br>'mpirun -np *22* -bind-to core -bind-to socket renumberMesh -overwrite -parallel'
+
+Open the `02_Run` folder in VSCode
+<br>Open a terminal
+<br>Run `sh allMesh`
+_This will complete a folder clean up to remove any previous meshes, then generate a mesh, decompose for the number of processors and then run the boundary condition initialisation followed by pimpleFoam solver. 
 
 ## Step 7: Post-processing
 
