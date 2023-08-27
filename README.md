@@ -108,11 +108,11 @@ The `mpirun` commands should be configured to ensure the number of processors `-
   <summary>Hyper Threading</summary>
 The argument <code>--use-hwthread-cpus</code> enables hyper treads to be treated as cores. Typically simulation software runs slower using hyper threading, therefore should be disabled. Trials with this workflow havn't shown a significant impact and since it's expected the user will have a general use PC rather than a workstation, the mpi commands have been structed to use hyper threaded cores.
 </details>
-Open the `02_Run` folder in VSCode
+Open the <code>02_Run</code> folder in VSCode
 <br>Open a terminal
-<br>Run `sh allMesh`
+<br>Run <code>sh allMesh</code>
 <br>This will complete a folder clean up to remove any previous meshes, then generate a mesh, decompose for the number of processors and then run the boundary condition initialisation followed by pimpleFoam solver.
-<br>*Note* The cleanup script removed the geometry from the 02_Run folder and updates it from the 01_Geometry folder. This enables automated updating of the geometry but means the workflow will not run without the  
+<br><bold>Note</bold> The cleanup script removed the geometry from the 02_Run folder and updates it from the 01_Geometry folder. This enables automated updating of the geometry but means the workflow will not run without the  
 
 ## Step 7: Post-processing
 
