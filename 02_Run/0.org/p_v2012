@@ -1,0 +1,59 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  8
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -2 0 0 0 0];
+
+pressure          0.0;
+
+internalField   uniform $pressure;
+
+//- Set patchGroups for constraint patches
+#includeEtc "caseDicts/setConstraintTypes"
+
+boundaryField
+{
+    //- Set patchGroups for constraint patches
+    #includeEtc "caseDicts/setConstraintTypes"
+
+      "(inletLeft|inletRight)"
+      {
+            type            fanPressure;
+            direction       in;
+            fanCurve        tableFile;
+            fanCurveCoeffs
+            {
+                  type table;
+                  file "<constant>/fanCurve.dat";
+                  outOfBounds clamp;      // Default
+            }
+            //nonDimensional  true;
+            //rpm             300;
+            //dm              2e-2;
+            p0              uniform 17.3;
+      }
+      outletAtmosphere
+      {
+            type                fixedValue;
+            value               uniform $pressure;
+      }
+      "(walls|wallsDuctLeft|wallsDuctRight|wallsNozzle|wallsPart|wallsBuildplate)"
+      {
+            type                zeroGradient;
+      }
+
+}
+
+// ************************************************************************* //
