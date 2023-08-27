@@ -24,6 +24,12 @@ This workflow assuems a common folder structure:
 <br>	`./<CaseName>/03_Calcs`
 <br><br>**Note** that the pre-run cleanup script will update the mesh geometry based on the contence of `./<CaseName>/01_Geometry` 
 
+## OpenFOAM versions
+The scripts are developed for running on v2306 of [OpenFOAM.com](https://develop.openfoam.com/Development/openfoam/-/wikis/precompiled)
+The [Windows 10 installation guide](https://www.openfoam.com/download/openfoam-installation-on-windows-10) on the OpenFOAM website will install v2012. In order to install v2306 please use the following guide:
+[https://develop.openfoam.com/Development/openfoam/-/wikis/precompiled/windows](https://develop.openfoam.com/Development/openfoam/-/wikis/precompiled/windows)
+If you choose v2012 use the [./0.org/p_v2012](./02_Run/0.org/p_v2012) pressure boundary condition. **Note:** The file will need to be renamed to `p`
+
 ## Step 1: Geometry Preparation
 To be added....
 
