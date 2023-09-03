@@ -41,7 +41,7 @@ boundaryField
             //nonDimensional  true;
             //rpm             300;
             //dm              2e-2;
-            p0              uniform 17.3;
+            p0              uniform 0;
       }
       outletAtmosphere
       {
