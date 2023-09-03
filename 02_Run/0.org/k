@@ -19,6 +19,7 @@ dimensions      [m^2 s^-2];
 // https://www.simscale.com/docs/simulation-setup/global-settings/k-omega-sst/
 
 turbulentIntensity     0.15;
+turbulentKE            0.01;
 
 internalField   uniform $turbulentKE;
 
