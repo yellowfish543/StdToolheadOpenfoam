@@ -22,7 +22,7 @@ startTime       0.0;
 
 stopAt          endTime; // endTime; nextWrite; writeNow; noWriteNow
 
-endTime         0.02; // was 0.06
+endTime         0.016; // Default is 0.016s for toolheads, although may need to be increase for unsteady or low velocity ducts. 0.02s should be sufficient regardless of design. 
 
 deltaT          1e-6;
 
