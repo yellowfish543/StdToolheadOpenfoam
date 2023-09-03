@@ -169,12 +169,15 @@ castellatedMeshControls
             mode inside;
             levels ((1e3 2));
         }
+        // local mesh refinement around the nozzle if a gap is modelled between the nozzle and part/build plate
+        // commented by default to reduce run time
+        /*
         refinementNozzleTip
         {
             mode inside;
             levels ((1e3 6));
         }
-
+        */
     }
 }
 
