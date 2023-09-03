@@ -16,6 +16,7 @@ zMin    -0.026;
 zMax     0.032;
 
 // Define blockmesh element size - default is 3mm, this is the largest element in the mesh.
+// Increase this to reduce mesh size and run time
 blockSize 0.003;
 
 xBlocks #eval "ceil( ($xMax - $xMin) / $blockSize )";
