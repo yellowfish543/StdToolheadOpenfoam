@@ -1,5 +1,7 @@
 # StdToolheadOpenfoam
 
+![Banner!](images/image.png "Test Case Results")
+
 Standardised CFD workflow for 3d printer toolhead analysis based on Openfoam.com
 <br><br>This repository aims to provide a standardised methodolodgy for CFD analysis.
 <br>The workflow follows the process outlined below:
