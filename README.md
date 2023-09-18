@@ -52,17 +52,31 @@ The model is run transiently. This can be important and is not possible in simsc
 Geometry preparation is critical to high quality meshes and convergence. The geometry will also directly impact the mesh size and hence solution time.<br>
 The following is given as an example of the preparation and which can then be used on your own geometry. [https://a360.co/3PRtX5L](https://a360.co/3PRtX5L)<br>
 The initial steps are as follows:
-1) Define the fluid domain - Basically work out how much you want to model. Take a note of the min/max x,y,z coords for this domain.
-2) Position the geometry with the origin (0,0,0) at the nozzle tip
-3) Add part geometry to simulate more realistic restictions about the nozzle.
-4) Simplify the duct and nozzle gometry. Removing small faces and insiginicant features will significantly reduce the mesh size and in turn, the simulation run-time.
-5) Substract the gometry from the fluid domain
-6) Un-stitch the domain and re-stitch faces based on the regions defined in step 2.
-7) Convert grouped faces to mesh
-8) Combine mesh's as required (ie. left and right duct outer walls into 'walls')
-9) Generate solid bodies for the refinement zones about the part and nozzle.
-10) Export all mesh and solid bodies as stl's (in _**mm**_)
-11) Save all stl's in <code>./01_Geometry/</code>
+1) Start with the basic arragement of the geometry and add part geometry to simulate more realistic restictions about the nozzle.
+![Basic Arrangment of the toolhead, nozzle and simulated part!](images/BasicArrangement.png "Basic Arrangment")
+2) Simplify the duct and nozzle gometry. Removing small faces and insiginicant features will significantly reduce the mesh size and in turn, the simulation run-time.
+3) Define the fluid domain - Basically work out how much you want to model. Take a note of the min/max x,y,z coords for this domain.
+![Simulation fluid domain!](images/fluidDomain.png "Fluid Domain")
+4) Substract the gometry from the fluid domain
+![Final simulation fluid domain!](images/subtractedFluidDomain.png "Subtracted Fluid Domain")
+6) Position the geometry with the origin (0,0,0) at the nozzle tip
+![Origin Position - Front view!](images/originFront.png "Origin at Nozzle Tip")
+![Origin Position - Isometric!](images/OriginIsometric.png "Origin at Nozzle Tip")
+7) Un-stitch the domain and re-stitch faces based on the regions defined in step 2.
+![Unstitched Solid Fluid Domain](images/unstiched.png "Unstitched Fluid Domain")
+![Stitched Solid Fluid Domain based on boundary Conditions](images/stichedSurfaces.png "Stitched Fluid Domain")
+8) Generate solid bodies for the refinement zones about the part and nozzle.
+   Nozzle refinement:
+  ![Nozzle refinement region](images/nozzleRefinement.png "Nozzle refinement region")
+   Part refinement:
+  ![Part refinement region](images/partRefinement.png "Part refinement region")
+10) Convert grouped faces to mesh
+11) Combine mesh's as required (ie. left and right duct outer walls into 'walls')
+![Merging Mesh Groups for walls](images/mergedWalls.png "Merging Mesh Groups")
+12) Export all mesh and solid bodies as stl's (in _**meters**_)
+![Select mesh body for export](images/exportMesh1.png "Select mesh body for export")
+![Export as ASCII STL in meters](images/exportMesh2.png "Export as ASCII STL in meters")
+13) Save all stl's in <code>./01_Geometry/</code>
 
 ## Step 2: Fluid Domain Generation
 
