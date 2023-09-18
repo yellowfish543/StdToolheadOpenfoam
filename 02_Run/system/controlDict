@@ -64,10 +64,10 @@ functions
 
         // Optional (inherited) entries
         writePrecision  8;
-        writeToFile     true;
+        writeToFile     false;
         useUserTime     true;
         region          region0;
-        enabled         true;
+        enabled         false;
         log             true;
         // executeControl  timeStep;
         // executeInterval 500;
