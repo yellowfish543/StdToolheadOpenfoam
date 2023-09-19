@@ -21600,7 +21600,7 @@
         <Domain name="bool" id="9647.DecomposePolyhedra.bool"/>
       </Property>
       <Property name="FileName" id="9647.FileName" number_of_elements="1">
-        <Element index="0" value="/home/carl/OpenFOAM/carl-v2212/How-to-Guide/02_Run/02_Run.foam"/>
+        <Element index="0" value="/home/<usr>/OpenFOAM/<usr>-v2212/How-to-Guide/02_Run/02_Run.foam"/>
         <Domain name="files" id="9647.FileName.files"/>
       </Property>
       <Property name="LagrangianArrayInfo" id="9647.LagrangianArrayInfo"/>
