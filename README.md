@@ -3,7 +3,7 @@
 ![Banner!](images/image.png "Test Case Results")
 
 Standardised CFD workflow for 3d printer toolhead analysis based on Openfoam.com
-<br><br>This repository aims to provide a standardised methodolodgy for CFD analysis.
+<br><br>This repository aims to provide a standardised methodology for CFD analysis.
 <br>The workflow follows the process outlined below:
 1) Geometry preparation
 2) Fluid domain generation
@@ -13,19 +13,19 @@ Standardised CFD workflow for 3d printer toolhead analysis based on Openfoam.com
 6) Case execution and monitoring
 7) Post-processing
 
-The workflow uses software freely avaliable for non-commercial use:
+The workflow uses software freely available for non-commercial use:
 * Fusion 360 - CAD and Geometry Preparation (steps 1 & 2)
-* Excel - Boundary condition calcs (step 3) - Ok so not free but readliy avaliable, can be migrated to python at some point   
-* VSCode - All interfaceing with Openfoam setup and execution as well as launching paraFoam/paraView for post-processing - (Steps 4-7)
+* Excel - Boundary condition calcs (step 3) - Ok so not free but readily available, can be migrated to python at some point   
+* VSCode - All interfacing with Openfoam setup and execution as well as launching paraFoam/paraView for post-processing - (Steps 4-7)
 * OpenFOAM v2306 - Openfoam.com flavour (largely the same as .org but syntax varies) (steps 4-6)
 * ParaFOAM - Post-processor bundled into OpenFOAM, could also use ParaView either in Linux or Windows (step 7)
 
 ## Folder Structure
-This workflow assuems a common folder structure:
+This workflow assumes a common folder structure:
 <br>	`./<CaseName>/01_Geometry`
 <br> 	`./<CaseName>/02_Run`
 <br>	`./<CaseName>/03_Calcs`
-<br><br>**Note** that the pre-run cleanup script will update the mesh geometry based on the contence of `./<CaseName>/01_Geometry` 
+<br><br>**Note** that the pre-run cleanup script will update the mesh geometry based on the contents of `./<CaseName>/01_Geometry` 
 
 ## OpenFOAM versions
 
@@ -47,14 +47,14 @@ In this workflow, the inlets are fan outlets. They are modelled as a uniform vel
 The outlet is the atmosphere. We don't specify any velocity here, just that flow can exit through these planes, the simulation will do the work to predict how and where.<br>
 The simulation is run incompressible. This is due to the mach numbers generally being low (<0.3). If you are trying to predict something like berd air or a very high pressure inlet, it's possible that this may not be valid.<br>
 
-The model is run transiently. This can be important and is not possible in simscale with a free licence. Essentially the simulation will run from the starting of the cooling fans through to a fully developed flow. By running transiently it is possible to detect aerodynamic instablities. When a simulation is run steady-state these can lead to poor convergence and non-physical results. This does increase the run time, however optimistion of the goemetry and meshing still allow for a relatively fast solution, converging within a couple of hours, although exact times vary significantly depending on CPU, and to a less extent, RAM performance.
+The model is run transiently. This can be important and is not possible in simscale with a free licence. Essentially the simulation will run from the starting of the cooling fans through to a fully developed flow. By running transiently it is possible to detect aerodynamic instabilities. When a simulation is run steady-state these can lead to poor convergence and non-physical results. This does increase the run time, however optimisation of the geometry and meshing still allow for a relatively fast solution, converging within a couple of hours, although exact times vary significantly depending on CPU, and to a less extent, RAM performance.
 
 ## Step 1: Geometry Preparation
 
 Geometry preparation is critical to high quality meshes and convergence. The geometry will also directly impact the mesh size and hence solution time.<br>
 The following is given as an example of the preparation and which can then be used on your own geometry. [https://a360.co/3PRtX5L](https://a360.co/3PRtX5L)<br>
 The initial steps are as follows:
-1) Start with the basic arragement of the geometry and add part geometry to simulate more realistic restictions about the nozzle.
+1) Start with the basic arrangement of the geometry and add part geometry to simulate more realistic restrictions about the nozzle.
 ![Basic Arrangment of the toolhead, nozzle and simulated part!](images/BasicArrangement.png "Basic Arrangment")
 2) Simplify the duct and nozzle gometry. Removing small faces and insiginicant features will significantly reduce the mesh size and in turn, the simulation run-time.
 3) Define the fluid domain - Basically work out how much you want to model. Take a note of the min/max x,y,z coords for this domain.
@@ -73,21 +73,21 @@ The initial steps are as follows:
    Part refinement:
   ![Part refinement region](images/partRefinement.png "Part refinement region")
 10) Convert grouped faces to mesh
-11) Combine mesh's as required (ie. left and right duct outer walls into 'walls')
+11) Combine meshes as required (ie. left and right duct outer walls into 'walls')
 ![Merging Mesh Groups for walls](images/mergedWalls.png "Merging Mesh Groups")
-12) Export all mesh and solid bodies as stl's (in _**meters**_)
+12) Export all mesh and solid bodies as stls (in _**meters**_)
 ![Select mesh body for export](images/exportMesh1.png "Select mesh body for export")
 ![Export as ASCII STL in meters](images/exportMesh2.png "Export as ASCII STL in meters")
-13) Save all stl's in <code>./01_Geometry/</code>
+13) Save all stls in <code>./01_Geometry/</code>
 
 ## Step 2: Fluid Domain Generation
 
-The fluid domain is generated using stl's containing the surfaces which make up a given <code>patch</code>
+The fluid domain is generated using stls containing the surfaces which make up a given <code>patch</code>
 <br>A patch is used to define boundary conditions, such as a domain inlet, outlet or a wall.
-<br>Walls are sub-divided to enable mesh refinement in given regions, hence multiple stl's are required for the walls
+<br>Walls are sub-divided to enable mesh refinement in given regions, hence multiple stls are required for the walls
 <br>Volumetric regions are also used for mesh refinement, specifically fine refinment around the nozzle and moderate refinement around the part.
 
-The following stl's are required for the meshing to work without modification: 
+The following stls are required for the meshing to work without modification: 
 
 ### Inlet
 
@@ -132,14 +132,14 @@ This CFD is configured to run transiently. This ensures the CFD analysis is robu
 Meshing is completed in a number of steps.
 1) blockMesh is generated for the fluid domain. This is the background mesh and will be refined.
 2) The mesh is decomposed based on the number of processors solving the analysis
-3) The geometry is processed to extract edges of the stl's
+3) The geometry is processed to extract edges of the stls
 4) SnappyHexMesh refines the mesh around the geometry and refinement regions, generating the final analysis mesh
 <br><br>The case is configured to run in parallel using openMPI on 16 processors.
 <br>The variable numProc has been set in [decomposParDict](./02_Run/system/decomposeParDict) file.
 <br>Running on a couple few cores than the PC has enables post-processing during a run (assuming there is sufficient system RAM)
 <br>The meshing has been configured with the following:
-* stl's should be saved in meters
-* stl's should be stored in `./<CaseName>/01_Geometry`
+* stls should be saved in meters
+* stls should be stored in `./<CaseName>/01_Geometry`
 <br><br>When the fluid domain is modified the min/max coordinates must be updated in [blockMeshDict](./02_Run/system/blockMeshDict)
 <br>The blockMesh domain should be larger than the fluid domain, therefore any values should be rounded up to the nearest 0.1mm
 <br>eg. if the minimum corner point is (-60, -30, -25), the blockMeshDict should be updated to (-60.1, -30.1, -25.1)
@@ -148,7 +148,7 @@ Meshing is completed in a number of steps.
 ### Mesh refinement
 
 Mesh refinement is used to decrease the element size generated by the blockMesh. The case has been configured to use 2 approaches for this, surface refinement and volumetric refinement.
-<br><br>The refinement is applied in regions of higher velocity, stong interaction between jets or regions of interest where details in the geometry may impact the results.
+<br><br>The refinement is applied in regions of higher velocity, strong interaction between jets or regions of interest where details in the geometry may impact the results.
 <br><br>Refinement is defined based on the level of reduction in the region relative to the blockMesh size, with each level halving the element size. More details can be found in the [OpenFOAM guide](https://www.openfoam.com/documentation/guides/latest/doc/guide-meshing-snappyhexmesh).
 
 #### Surface refinement
