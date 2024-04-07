@@ -50,7 +50,14 @@ CFD can be run in a number of ways. The most common is to run it steady-state, i
 To counter this, the models in this workflow are run transiently. This is a key reason for using a local copy of OpenFOAM as it is not possible in other free software options like simscale with a free license. Essentially the simulation will run from the starting of the cooling fans through to a fully developed flow. By running transiently it is possible to detect aerodynamic instabilities. This does increase the run time, however it is reasonably efficient and comparable to the time taken to print and test a concept.<br><br>
 This is achieved through using clean, de-featured geometry and targeted mesh refinement. Typically this will solve within a couple of hours, although exact times vary significantly depending on CPU, and to a lesser extent, RAM performance.
 
-## Step 1: Geometry Preparation
+## Step 1: Pre-Flight Checks
+
+Before jumping in to running a new case, install openFoam, get vscode working, **run the case in this repo** and check the results in paraFoam. The following guide gives detail on how this case has been constructed and by following through the tutorial example the user should be able to generate their own case but OpenFOAM is a relatively complex suite of software and therefore it's worth while taking the time to run the tutorial case first and check everything is working as expected before generating something new.
+
+OpenFOAM also have some tutorials which will both give a good intro to the software to both run cases and visualise the results as well as flushing out any issues with a specific installation:
+[https://wiki.openfoam.com/"first_glimpse"_series](https://wiki.openfoam.com/%22first_glimpse%22_series)
+
+## Step 2: Geometry Preparation
 
 Geometry preparation is critical to high quality meshes and convergence. The geometry will also directly impact the mesh size and hence solution time.<br>
 The following is given as an example of the preparation and which can then be used on your own geometry. [https://a360.co/3PRtX5L](https://a360.co/3PRtX5L)<br>
@@ -97,7 +104,7 @@ The initial steps are as follows:
 ![Export as ASCII STL in meters](images/exportMesh2.png "Export as ASCII STL in meters")
 13) Save all stls in <code>./01_Geometry/</code>
 
-## Step 2: Fluid Domain Generation
+## Step 3: Fluid Domain Generation
 
 The fluid domain is generated using the exported stl's containing the surfaces which make up a given <code>patch</code> or <code>wall</code>
 - A patch is used to define boundary conditions, such as a domain inlet or outlet.
@@ -255,7 +262,7 @@ This is followed by the features, which imports the *.eMesh files which define f
 ```
 <details>
   <summary>eMesh Files</summary>
-    The *.eMesh files are generated using the [./02_Run/system/surfaceFeatureExtractDict](02_Run/system/surfaceFeatureExtractDict), which is a relatively basic file structure used to extract the geometric data from an stl:
+    The *.eMesh files are generated using the <code>02_Run/system/surfaceFeatureExtractDict</code>, which is a relatively basic file structure used to extract the geometric data from an stl:
 
       FoamFile
       {
@@ -281,7 +288,7 @@ This is followed by the features, which imports the *.eMesh files which define f
       ...
   If filenames are changed for the stl's then the <code>surfaceFeatureExtractDict</code> will require editing.
 </details>
-The level of refinement on a surface is defined in <code>refinmentSurfaces</code>. The extract below highlights a number of key parameters within this section. The first line sets the names of the geometry which the surface refinement applies to, so in this case the first row sets the inletLeft and inletRight to the same settings. The levels command defines the (<min> <max>) surface refinement. The minimum level is applied across the surface and the maximum level is applied to cells at locations where the surface angle exceeds the resolveFeatureAngle. The <code>patchInfo</code> sets the surface as either a patch (boundary condition), or a wall.
+The level of refinement on a surface is defined in <code>refinmentSurfaces</code>. The extract below highlights a number of key parameters within this section. The first line sets the names of the geometry which the surface refinement applies to, so in this case the first row sets the inletLeft and inletRight to the same settings. The levels command defines the (<min> <max>) surface refinement. The minimum level is applied across the surface and the maximum level is applied to cells at locations where the surface angle exceeds the resolveFeatureAngle. The <code>patchInfo</code> sets the surface as either a patch (boundary condition), or a wall.<br>
 
 ```
 refinementSurfaces
@@ -304,8 +311,9 @@ refinementSurfaces
     ...
     )
 ```
+
 The final section in this part is the refinementRegions. In this example only an internal refinement is applied. In this case the initial number is set very high and the internal refinement level is based on the second number, so 3 in this specific example:
-'''
+
 
     refinementRegions
     {
@@ -316,12 +324,11 @@ The final section in this part is the refinementRegions. In this example only an
         }
         ...
     }
-'''
 snappyHexMesh can also accept refinement based on the distance from a surface amongst other settings. 
 
 The final parts of the setup file define the number of iterations and refinement tolerances required for the mesh. The settings have been defined to give a reasonably robust meshing process which produces reliably usable meshes. It's not recommended that these settings are modified. Generally issues with the meshing process are driven by the blockMesh bounding box, incorrect location in mesh or  geometry which isn't watertight (ie gaps between surfaces) or geometry which is overly complex and requires further simplification.
 
-## Step 3: Boundary Condition Calculation
+## Step 4: Boundary Condition Calculation
 
 Template file includes suitable boundary conditions to simulate a 4010 GDSTime blower into ambient air
 <br>The Case is run isothermal incompressible with k-Omega SST turbulence model.
@@ -335,7 +342,7 @@ This CFD is configured to run transiently. This ensures the CFD analysis is robu
 <br><br>The duration of a time step is set by the time taken for flow to pass through a cell within the simulation. Therefore a very fine mesh or a very high speed flow will lead to small time step being required and a longer run time. If the velocity is increased (ie more powerful fan is modelled) then the time required to reach a steady state condition is expected to reduce, however this should be monitored during the run using ParaFOAM to ensure the solution has reached a steady state condition.
 <br><br>Before running very high velocity flows the user should consider whether it's required. If the flowfield is unchanged (likely to be the case for the low Mach numbers typically running), hand calculations are likely to be sufficient to estimate the velocity. 
 
-## Step 4: Mesh Configuration
+## Step 5: Mesh Configuration
 
 Meshing is completed in a number of steps.
 1) blockMesh is generated for the fluid domain. This is the background mesh and will be refined.
@@ -369,10 +376,10 @@ The focus of the wall refinement is in the ducts and nozzle, with the nozzle bei
 Volumetric refinement is used to capture the region of interaction between the opposing jets, as well as an additional highly resolved region between the part and the nozzle. Gaps require ~8 cells to properly resolve flow, however the low level of flow coupled with the resultant very small cells will significantly increase both run time and mesh size (ram requirements) and is not expected to significantly alter understanding.
 <br><br>The simplest way to add volumetric refinement is through generation of a volume in CAD and export as an STL, as has been done for the part and nozzle refinement regions. The local region around the tip of the nozzle has been added as a cylinder within [snappyHexMeshDict](./Run_02/system/snappyHexMeshDict), and is reliant on the mesh being datum'd such that the tip of the nozzle is at (0, 0, 0).
 
-## Step 5: Case Configuration
+## Step 6: Case Configuration
 To be added... 
 
-## Step 6: Case Execution
+## Step 7: Case Execution
 
 Before running the case ensure the number of processors in the run scripts are set according to [decomposParDict](./02_Run/system/decomposeParDict) 
 <br><br>The following files need to be checked and updated as required:
@@ -385,7 +392,7 @@ The `mpirun` commands should be configured to ensure the number of processors `-
 <br>`mpirun -np 16 --use-hwthread-cpus renumberMesh -overwrite -parallel`
 <details>
   <summary>Hyper Threading</summary>
-The argument <code>--use-hwthread-cpus</code> enables hyper treads to be treated as cores. Typically simulation software runs slower using hyper threading, therefore should be disabled. Trials with this workflow havn't shown a significant impact and since it's expected the user will have a general use PC rather than a workstation, the mpi commands have been structed to use hyper threaded cores.
+The argument <code>--use-hwthread-cpus</code> enables hyper treads to be treated as cores. Typically simulation software runs slower using hyper threading, therefore should be disabled. Trials with this workflow haven't shown a significant impact and since it's expected the user will have a general use PC rather than a workstation, the mpi commands have been structed to use hyper threaded cores.
 </details>
 Open the <code>02_Run</code> folder in VSCode
 <br>Open a terminal
@@ -393,5 +400,5 @@ Open the <code>02_Run</code> folder in VSCode
 <br>This will complete a folder clean up to remove any previous meshes, then generate a mesh, decompose for the number of processors and then run the boundary condition initialisation followed by pimpleFoam solver.
 <br><bold>Note</bold> The cleanup script removed the geometry from the 02_Run folder and updates it from the 01_Geometry folder. This enables automated updating of the geometry but means the workflow will not run without the  
 
-## Step 7: Post-processing
+## Step 8: Post-processing
 
